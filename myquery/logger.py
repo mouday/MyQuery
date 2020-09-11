@@ -4,7 +4,7 @@ import logging
 
 # 设置日志
 logger = logging.getLogger("myquery")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter("myquery: %(message)s")
 

@@ -51,7 +51,7 @@ class DataBase(object):
         return operation
 
     def _after_execute(self):
-        logger.debug(f"after: {self.cursor.statement}")
+        logger.info(f"after: {self.cursor.statement}")
 
     def execute_many(self, operation, seq_params):
         operation = self._before_execute(operation, seq_params)
