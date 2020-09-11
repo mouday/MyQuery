@@ -43,16 +43,17 @@ class DatabaseUtil(object):
         }
 
         # 查询参数
-        for query in parse_result.query.split("&"):
-            key, value = query.split("=")
+        if parse_result.query:
+            for query in parse_result.query.split("&"):
+                key, value = query.split("=")
 
-            # 注意bool值的转换
-            if value == 'true':
-                value = True
-            elif value == 'false':
-                value = False
+                # 注意bool值的转换
+                if value == 'true':
+                    value = True
+                elif value == 'false':
+                    value = False
 
-            db_config[key] = value
+                db_config[key] = value
 
         return db_config
 
@@ -76,4 +77,5 @@ class DatabaseUtil(object):
 
 if __name__ == '__main__':
     url = "mysql://root:12345@6@127.0.0.1:3306/data?charset=utf8&autocommit=false"
+    url = "mysql://root:12345@6@127.0.0.1:3306/data"
     pprint(DatabaseUtil.parse_db_url(url))
