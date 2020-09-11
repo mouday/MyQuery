@@ -29,6 +29,15 @@ class DataBase(object):
 
         logger.debug("DataBase close")
 
+    def ping(self, reconnect=False, attempts=1, delay=0):
+        self.connect.ping(reconnect, attempts, delay)
+
+    def reconnect(self, attempts=1, delay=0):
+        self.connect.reconnect(attempts, delay)
+
+    def is_connected(self):
+        return self.connect.is_connected()
+
     def _before_execute(self, operation, params):
         # 如果有:占位符再进行预处理
         if ":" in operation:
@@ -101,4 +110,7 @@ class DataBase(object):
 
 if __name__ == '__main__':
     url = "mysql://root:123456@127.0.0.1:3306/data?charset=utf8"
-    DataBase(db_url=url)
+    db = DataBase(db_url=url)
+    print(db.is_connected())
+    db.close()
+    print(db.is_connected())
