@@ -64,40 +64,43 @@ db.close()
 
 2.3 插入数据
 ```python
+# insert_one 返回插入数据的自增id
+
  # 命名占位符
 user1 = {"name": "Tom", "age": 23}
 
 sql = "insert into person (name, age) values (%(name)s, %(age)s)"
 ret = db.insert_one(sql, user1)
-print(ret)
+print(ret) # 1
 
 
 sql = "insert into person (name, age) values (:name, :age)"
 ret = db.insert_one(sql, user1)
-print(ret)
+print(ret) # 2
 
 
 # 占位符
 user2 = ["Tom", 23]
 sql = "insert into person (name, age) values (%s, %s)"
 ret = db.insert_one(sql, user2)
-print(ret)
+print(ret) # 3
 
 sql = "insert into person (name, age) values (?, ?)"
 ret = db.insert_one(sql, user2)
-print(ret)
+print(ret) # 4
 
 
-# 批量插入数据
+# 批量插入数据， insert返回插入数据的条数
 user1 = {"name": "Tom", "age": 23}
 user2 = {"name": "Jack", "age": 24}
 sql = "insert into person (name, age) values (:name, :age)"
 ret = db.insert(sql, [user1, user2])
-print(ret)
+print(ret) # 2
 ```
 
 2.4 更新数据
 ```python
+# update 返回影响行数
 user1 = {"name": "Tom", "age": 23}
 sql = "update person set name = :name, age = :age"
 ret = db.update(sql, user1)
@@ -106,6 +109,7 @@ print(ret)
 
 2.5 删除数据
 ```python
+# delete 返回影响行数
 sql = "delete from person where id = :id"
 ret = db.delete(sql, {'id': 32})
 print(ret)
@@ -113,15 +117,16 @@ print(ret)
 
 2.6 查询数据
 ```python
+# select_one 返回字典数据，select返回列表数据
 sql = "select * from person where id = :id"
 ret = db.select_one(sql, {'id': 1})
 print(ret)
-
+# {'id': 1, 'age': 23, 'name': 'Tom'}
 
 sql = "select * from person where id > :id"
 ret = db.select(sql, {'id': 1})
 print(ret)
-
+# [{'id': 3, 'age': 23, 'name': 'Tom'}]
 ```
 
 2.7 获取Table类
