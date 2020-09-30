@@ -201,3 +201,11 @@ ret = PersonTable.count()
 # SELECT count(*) FROM person
 print(ret)
 ```
+
+## 4、ReconnectionDataBase
+
+如果需要使用长链接的场景下，可以使用：
+```python
+db = ReconnectionDataBase(db_url=url)
+```
+会在*每次*发送sql语句到mysql之前，先执行ping测试连接情况
