@@ -2,8 +2,10 @@
 
 
 import unittest
+import logging
+from myquery.database import DataBase, ReconnectionDataBase
 
-from myquery.database import DataBase
+logging.getLogger("myquery").setLevel(logging.DEBUG)
 
 """
 CREATE TABLE `person` (
@@ -24,7 +26,8 @@ class DbTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.db = DataBase(db_url=cls.db_url)
+        cls.db = ReconnectionDataBase(db_url=cls.db_url)
+        # cls.db = DataBase(db_url=cls.db_url)
 
     @classmethod
     def tearDownClass(cls):

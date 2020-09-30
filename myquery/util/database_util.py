@@ -69,7 +69,7 @@ class DatabaseUtil(object):
 
     @classmethod
     def get_table_name(cls, table_name):
-        if table_name.endswith('Table'):
+        if table_name.endswith('Table') or table_name.endswith('Model'):
             table_name = table_name[:-5]
 
         return DatabaseUtil.get_lower_class_name(table_name)

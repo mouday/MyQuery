@@ -53,7 +53,8 @@ class DbTest(unittest.TestCase):
         print(ret)
 
     def test_select_by_id(self):
-        ret = PersonTable.select_by_id(1)
+        ret = PersonTable.select_by_id(1, 'name, age')
+        ret = PersonTable.select_by_id(1, ['name', 'age'])
         # SELECT * FROM person WHERE `id` = 1
         print(ret)
 

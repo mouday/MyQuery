@@ -30,12 +30,15 @@ class DataBase(object):
         logger.debug("DataBase close")
 
     def ping(self, reconnect=False, attempts=1, delay=0):
+        logger.debug("ping")
         self.connect.ping(reconnect, attempts, delay)
 
     def reconnect(self, attempts=1, delay=0):
+        logger.debug("reconnect")
         self.connect.reconnect(attempts, delay)
 
     def is_connected(self):
+        logger.debug("is_connected")
         return self.connect.is_connected()
 
     def _before_execute(self, operation, params):
@@ -108,9 +111,20 @@ class DataBase(object):
         return type(table_name, (Table,), {"table_name": table_name, "database": self})
 
 
+class ReconnectionDataBase(DataBase):
+    """每次使用之前会测试连通性，如果断开就重连"""
+    def _before_execute(self, operation, params):
+        """使数据库保持链接"""
+        if not self.is_connected():
+            self.reconnect()
+        return super()._before_execute(operation, params)
+
+
 if __name__ == '__main__':
+
     url = "mysql://root:123456@127.0.0.1:3306/data?charset=utf8"
-    db = DataBase(db_url=url)
+    # db = DataBase(db_url=url)
+    db = ReconnectionDataBase(db_url=url)
     print(db.is_connected())
     db.close()
     print(db.is_connected())

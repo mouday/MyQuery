@@ -96,15 +96,23 @@ class Table(ABC):
         return cls.database.update(sql, data)
 
     @classmethod
-    def select_by_id(cls, uid):
-        """获取数据"""
+    def select_by_id(cls, uid, fields=None):
+        """获取数据
+            fields: list/str
+        """
         table_name = cls.get_table_name()
+
+        if not fields:
+            fields = cls.fields
+
+        if isinstance(fields, list):
+            fields = SQLBuilderUtil.get_key_str(fields)
 
         key_value_str = SQLBuilderUtil.get_key_value_str([cls.primary_key])
 
         # select * from table where id = ?
         builder = SQLBuilder()
-        sql = builder.select(cls.fields).from_(table_name).where(key_value_str).build()
+        sql = builder.select(fields).from_(table_name).where(key_value_str).build()
 
         return cls.database.select_one(sql, {cls.primary_key: uid})
 
@@ -119,3 +127,6 @@ class Table(ABC):
         sql = builder.select("count(*) as count").from_(table_name).build()
         ret = cls.database.select_one(sql)
         return ret['count']
+
+
+Model = Table
