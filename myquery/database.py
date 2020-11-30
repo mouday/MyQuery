@@ -16,7 +16,7 @@ class DataBase(object):
     """
 
     def __init__(self, **kwargs):
-        warnings.warn("param db_url is Deprecated, please use DataBase.from_url")
+        warnings.warn("param db_url is Deprecated, please use DataBase.from_url", DeprecationWarning)
 
         kwargs = DatabaseUtil.prepare_config(**kwargs)
 
