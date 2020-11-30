@@ -27,7 +27,7 @@ class DbTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.db = ReconnectionDataBase(db_url=cls.db_url)
-        # cls.db = DataBase(db_url=cls.db_url)
+        cls.db = DataBase(db_url=cls.db_url)
 
     @classmethod
     def tearDownClass(cls):
