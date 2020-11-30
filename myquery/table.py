@@ -79,7 +79,7 @@ class Table(ABC):
 
     @classmethod
     def update_by_id(cls, data):
-        """更新数据"""
+        """更新数据 primary_key must in data"""
         table_name = cls.get_table_name()
 
         uid = data.pop(cls.primary_key)

@@ -32,8 +32,10 @@ CREATE TABLE `person` (
 
 bd_url = "mysql://root:123456@127.0.0.1:3306/data?charset=utf8&autocommit=true"
 
-db = DataBase(db_url=bd_url)
+# Deprecated
+# db = DataBase(db_url=bd_url)
 
+db = DataBase.from_url(bd_url)
 # 或者
 
 config = {
@@ -209,3 +211,7 @@ print(ret)
 db = ReconnectionDataBase(db_url=url)
 ```
 会在*每次*发送sql语句到mysql之前，先执行ping测试连接情况
+
+## 更新记录
+
+- 2020-11-30 新增方法`DataBase.from_url(bd_url)`

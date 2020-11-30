@@ -6,6 +6,7 @@ from myquery.logger import logger
 from myquery.table import Table
 from myquery.util.database_util import DatabaseUtil
 from myquery.util.sql_builder_util import SQLBuilderUtil
+import warnings
 
 
 class DataBase(object):
@@ -15,12 +16,22 @@ class DataBase(object):
     """
 
     def __init__(self, **kwargs):
+        warnings.warn("param db_url is Deprecated, please use DataBase.from_url")
+
         kwargs = DatabaseUtil.prepare_config(**kwargs)
 
         self.connect = mysql.connector.Connect(**kwargs)
         self.cursor = self.connect.cursor(dictionary=True)
 
         logger.debug("DataBase open")
+
+    @classmethod
+    def from_url(cls, db_url):
+        """使用url 方法连接数据库"""
+        parse_config = DatabaseUtil.parse_db_url(db_url)
+        if parse_config.pop('scheme') != "mysql":
+            raise Exception("only support mysql scheme")
+        return cls(**parse_config)
 
     def close(self):
         """关闭游标和连接"""
@@ -49,12 +60,12 @@ class DataBase(object):
         if "?" in operation:
             operation = SQLBuilderUtil.replace_sql(operation)
 
-        logger.debug(f"before: {operation}")
+        logger.debug(f"[before] {operation}")
 
         return operation
 
     def _after_execute(self):
-        logger.info(f"after: {self.cursor.statement}")
+        logger.info(f"[after] {self.cursor.statement}")
 
     def execute_many(self, operation, seq_params):
         operation = self._before_execute(operation, seq_params)
