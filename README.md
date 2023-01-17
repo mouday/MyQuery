@@ -5,7 +5,10 @@
 
 基于 mysql-connector-python 文档：[文档](https://dev.mysql.com/doc/connector-python/en/connector-python-connectargs.html)
 
+https://github.com/mouday/MyQuery
+
 ## 安装
+
 ```bash
 pip install myquery
 ```
